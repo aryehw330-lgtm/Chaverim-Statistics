@@ -1188,5 +1188,63 @@ window._initPerf=function(){renderGrid();};
 })();
 </script>
 
+
+<div id="lock-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#0f2744;z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column">
+  <div style="background:#1a3a6b;border-radius:16px;padding:40px 36px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.4);max-width:320px;width:90%">
+    <div style="font-size:2rem;margin-bottom:8px">🔐</div>
+    <div style="color:#fff;font-size:1.1rem;font-weight:700;margin-bottom:4px">Bergen County Chaverim</div>
+    <div style="color:#94a3b8;font-size:0.82rem;margin-bottom:24px">Dispatch Statistics Dashboard</div>
+    <div id="pin-dots" style="display:flex;justify-content:center;gap:12px;margin-bottom:24px">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:220px;margin:0 auto">
+      <button class="pin-btn" onclick="pinPress('1')">1</button>
+      <button class="pin-btn" onclick="pinPress('2')">2</button>
+      <button class="pin-btn" onclick="pinPress('3')">3</button>
+      <button class="pin-btn" onclick="pinPress('4')">4</button>
+      <button class="pin-btn" onclick="pinPress('5')">5</button>
+      <button class="pin-btn" onclick="pinPress('6')">6</button>
+      <button class="pin-btn" onclick="pinPress('7')">7</button>
+      <button class="pin-btn" onclick="pinPress('8')">8</button>
+      <button class="pin-btn" onclick="pinPress('9')">9</button>
+      <button class="pin-btn pin-clear" onclick="pinClear()" style="grid-column:1">⌫</button>
+      <button class="pin-btn" onclick="pinPress('0')">0</button>
+      <div></div>
+    </div>
+    <div id="pin-error" style="color:#f87171;font-size:0.78rem;margin-top:16px;height:18px"></div>
+  </div>
+</div>
+<style>
+.dot{width:14px;height:14px;border-radius:50%;background:#334155;transition:.15s}
+.dot.filled{background:#3b82f6}
+.pin-btn{padding:14px;border-radius:10px;border:none;background:#243f6b;color:#fff;font-size:1.1rem;font-weight:600;cursor:pointer;transition:.1s}
+.pin-btn:hover{background:#2d5080}
+.pin-btn:active{background:#3b82f6;transform:scale(.95)}
+</style>
+<script>
+(function(){
+  var _e='3457',_i='';
+  function upd(){
+    var dots=document.querySelectorAll('.dot');
+    dots.forEach(function(d,i){d.classList.toggle('filled',i<_i.length);});
+  }
+  window.pinPress=function(d){
+    if(_i.length>=4) return;
+    _i+=d; upd();
+    if(_i.length===4){
+      if(_i===_e){
+        document.getElementById('lock-overlay').style.display='none';
+      } else {
+        document.getElementById('pin-error').textContent='Incorrect PIN. Try again.';
+        setTimeout(function(){_i='';upd();document.getElementById('pin-error').textContent='';},800);
+      }
+    }
+  };
+  window.pinClear=function(){
+    if(_i.length>0){_i=_i.slice(0,-1);upd();}
+    document.getElementById('pin-error').textContent='';
+  };
+})();
+</script>
 </body>
 </html>
