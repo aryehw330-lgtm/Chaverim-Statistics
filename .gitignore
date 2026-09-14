@@ -1,0 +1,6 @@
+whatsapp_old/
+whatsapp_new/
+whatsapp_latest/
+calls_*.json
+__pycache__/
+*.bak
